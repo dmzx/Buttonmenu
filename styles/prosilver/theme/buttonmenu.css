@@ -19,6 +19,10 @@
   float: right;
 }
 
+#menu .inner { 
+  margin-top: 5px; 
+} 
+
 #menu #top-search {
   height: 30px;
   width: 160px;
