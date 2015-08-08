@@ -1,0 +1,15 @@
+imports:
+    - { resource: tables.yml }
+services:
+    dmzx.buttonmenu.listener:
+        class: dmzx\buttonmenu\event\listener
+        arguments:
+            - @service_container
+            - @config
+            - @template
+            - @user
+            - @dbal.conn
+            - %dmzx.buttonmenu.table.menu_buttons%
+            - %dmzx.buttonmenu.table.menu_colors%
+        tags:
+            - { name: event.listener }
