@@ -7,7 +7,7 @@
 	<form method="post" action="">
 		<fieldset>
 			<dl>
-				<dt><label for="menu_enabled">{L_MENU_ENABLED}:</label></dt>
+				<dt><label for="menu_enabled">{L_MENU_ENABLED}{L_COLON}</label></dt>
 				<dd>
 			<input type="radio" class="radio" name="menu_enabled" value="1"<!-- IF S_MENU_ENABLED --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
 					<input type="radio" class="radio" name="menu_enabled" value="0"<!-- IF not S_MENU_ENABLED --> checked="checked"<!-- ENDIF --> /> {L_NO}
@@ -98,28 +98,28 @@
 				</dd>
 				</dl>
 			<dl>
-				<dt><label for="menu_button_external_yes">{L_MENU_EXTERNAL}:</label></dt>
+				<dt><label for="menu_button_external_yes">{L_MENU_EXTERNAL}{L_COLON}</label></dt>
 				<dd>
 			<input type="radio" class="radio" id="menu_button_external_yes" name="button_external" value="1"<!-- IF S_EXTERNAL --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
 					<input type="radio" class="radio" id="menu_button_external_no" name="button_external" value="0"<!-- IF not S_EXTERNAL --> checked="checked"<!-- ENDIF --> /> {L_NO}
 			</dd>
 			</dl>
 			<dl>
-				<dt><label for="menu_button_only_registered_yes">{L_MENU_ONLY_REGISTERED}:</label></dt>
+				<dt><label for="menu_button_only_registered_yes">{L_MENU_ONLY_REGISTERED}{L_COLON}</label></dt>
 				<dd>
 			<input type="radio" class="radio" id="menu_button_only_registered_yes" name="button_only_registered" value="1"<!-- IF S_ONLY_REGISTERED --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
 					<input type="radio" class="radio" id="menu_button_only_registered_no" name="button_only_registered" value="0"<!-- IF not S_ONLY_REGISTERED --> checked="checked"<!-- ENDIF --> /> {L_NO}
 			</dd>
 			</dl>
 			<dl>
-				<dt><label for="menu_button_only_guest_yes">{L_MENU_ONLY_GUEST}:</label></dt>
+				<dt><label for="menu_button_only_guest_yes">{L_MENU_ONLY_GUEST}{L_COLON}</label></dt>
 				<dd>
 			<input type="radio" class="radio" id="menu_button_only_guest_yes" name="button_only_guest" value="1"<!-- IF S_ONLY_GUEST --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
 					<input type="radio" class="radio" id="menu_button_only_guest_no" name="button_only_guest" value="0"<!-- IF not S_ONLY_GUEST --> checked="checked"<!-- ENDIF --> /> {L_NO}
 			</dd>
 			</dl>
 			<dl>
-				<dt><label for="menu_button_display_yes">{L_MENU_DISPLAY}:</label></dt>
+				<dt><label for="menu_button_display_yes">{L_MENU_DISPLAY}{L_COLON}</label></dt>
 				<dd>
 			<input type="radio" class="radio" id="menu_button_display_yes" name="button_display" value="1"<!-- IF S_DISPLAY or not S_MENU_EDIT_BUTTON --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
 					<input type="radio" class="radio" id="menu_button_display_no" name="button_display" value="0"<!-- IF not S_DISPLAY and S_MENU_EDIT_BUTTON --> checked="checked"<!-- ENDIF --> /> {L_NO}
@@ -183,7 +183,7 @@
 				<dd><input class="post" type="text" size="50" maxlength="100" name="color_name" value="{S_NAME}" /></dd>
 			</dl>
 			<dl>
-				<dt><label>{L_MENU_STYLE}:</label></dt>
+				<dt><label>{L_MENU_STYLE}{L_COLON}</label></dt>
 				<dd>
 					<select name="color_style_id">
 					<option value=""></option>
@@ -194,14 +194,14 @@
 			</dd>
 			</dl>
 			<dl>
-				<dt><label>{L_MENU_SEARCH}:</label></dt>
+				<dt><label>{L_MENU_SEARCH}{L_COLON}</label></dt>
 				<dd>
 			<input type="radio" class="radio" name="color_display_search" value="1"<!-- IF S_DISPLAY_SEARCH or S_MENU_ADD_COLOR --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
 					<input type="radio" class="radio" name="color_display_search" value="0"<!-- IF not S_DISPLAY_SEARCH and S_MENU_EDIT_COLOR --> checked="checked"<!-- ENDIF --> /> {L_NO}
 			</dd>
 			</dl>
 			<dl>
-				<dt><label>{L_MENU_WEIGHT}:</label></dt>
+				<dt><label>{L_MENU_WEIGHT}{L_COLON}</label></dt>
 				<dd>
 					<select name="color_text_weight">
 				<option value="normal"<!-- IF S_TEXT_WEIGHT == 'normal' --> selected="selected"<!-- ENDIF -->>{L_MENU_NORMAL}</option>
@@ -210,7 +210,7 @@
 			</dd>
 			</dl>
 			<dl>
-				<dt><label>{L_MENU_TEXT_TRANSFORM}:</label></dt>
+				<dt><label>{L_MENU_TEXT_TRANSFORM}{L_COLON}</label></dt>
 				<dd>
 					<select name="color_text_transform">
 				<option value="none"<!-- IF S_TEXT_WEIGHT == 'none' --> selected="selected"<!-- ENDIF -->>{L_MENU_NONE}</option>
@@ -220,7 +220,7 @@
 			</dd>
 			</dl>
 			<dl>
-				<dt><label>{L_MENU_DECORATION}:</label></dt>
+				<dt><label>{L_MENU_DECORATION}{L_COLON}</label></dt>
 				<dd>
 			<select name="color_text_hover_decor">
 				<option value="none"<!-- IF S_TEXT_HOVER_DECOR == 'none' --> selected="selected"<!-- ENDIF -->>{L_MENU_NONE}</option>
@@ -229,7 +229,7 @@
 			</dd>
 			</dl>
 			<dl>
-				<dt><label>{L_MENU_ALIGN}:</label></dt>
+				<dt><label>{L_MENU_ALIGN}{L_COLON}</label></dt>
 				<dd>
 			<select name="color_align">
 				<option value="left"<!-- IF S_ALIGN == 'left' --> selected="selected"<!-- ENDIF -->>{L_MENU_LEFT}</option>
@@ -238,13 +238,13 @@
 			</dd>
 			</dl>
 			<dl>
-				<dt><label>{L_MENU_FONT_COLOR}:</label></dt>
+				<dt><label>{L_MENU_FONT_COLOR}{L_COLON}</label></dt>
 				<dd>
 			# <input class="post" type="text" size="20" name="color_text" value="{S_TEXT}" />
 			</dd>
 			</dl>
 			<dl>
-				<dt><label>{L_MENU_FONT_COLOR_HOVER}:</label></dt>
+				<dt><label>{L_MENU_FONT_COLOR_HOVER}{L_COLON}</label></dt>
 				<dd>
 			# <input class="post" type="text" size="20" name="color_text_hover" value="{S_TEXT_HOVER}" />
 			</dd>
