@@ -608,4 +608,4 @@ class acp_buttonmenu_module
 			AND right_id BETWEEN {$left_id} AND {$right_id}";
 		$db->sql_query($sql);
 	}
-}		
+}

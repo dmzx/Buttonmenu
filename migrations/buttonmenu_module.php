@@ -11,7 +11,6 @@ namespace dmzx\buttonmenu\migrations;
 
 class buttonmenu_module extends \phpbb\db\migration\migration
 {
-
 	public function update_data()
 	{
 		return array(

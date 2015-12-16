@@ -10,10 +10,10 @@
 namespace dmzx\buttonmenu\acp;
 
 class acp_buttonmenu_info
- {
+{
 	function module()
 	{
-		 return array(
+		return array(
 			'filename'	=> 'acp_buttons_menu',
 			'title'		=> 'MENU_TITLE',
 			'version'	=> '1.0.0',

@@ -1,5 +1,7 @@
 # Button Menu extension
 
+[![Build Status](https://travis-ci.org/dmzx/Buttonmenu.svg?branch=master)](https://travis-ci.org/dmzx/Buttonmenu)
+
 ## Install
 
 1. Download the latest release.

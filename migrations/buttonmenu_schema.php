@@ -11,7 +11,6 @@ namespace dmzx\buttonmenu\migrations;
 
 class buttonmenu_schema extends \phpbb\db\migration\migration
 {
-
 	public function update_data()
 	{
 		return array(
@@ -67,5 +66,4 @@ class buttonmenu_schema extends \phpbb\db\migration\migration
 			),
 		);
 	}
-
 }

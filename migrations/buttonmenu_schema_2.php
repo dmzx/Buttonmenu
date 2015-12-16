@@ -11,7 +11,6 @@ namespace dmzx\buttonmenu\migrations;
 
 class buttonmenu_schema_2 extends \phpbb\db\migration\migration
 {
-
 	static public function depends_on()
 	{
 		return array(
