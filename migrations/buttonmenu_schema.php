@@ -25,7 +25,7 @@ class buttonmenu_schema extends \phpbb\db\migration\migration
 			'add_tables'	=> array(
 				$this->table_prefix . 'menu_buttons' => array(
 				'COLUMNS'	=> array(
-					'button_id'				 => array('UINT', NULL, 'auto_increment'),
+					'button_id'				 => array('UINT', null, 'auto_increment'),
 					'button_url'			 => array('TEXT', ''),
 					'button_name'			 => array('VCHAR', ''),
 					'button_external'		 => array('BOOL', 0),
@@ -40,7 +40,7 @@ class buttonmenu_schema extends \phpbb\db\migration\migration
 				),
 				$this->table_prefix . 'menu_colors'	=> array(
 				'COLUMNS'	=> array(
-					'color_id'				 => array('UINT', NULL, 'auto_increment'),
+					'color_id'				 => array('UINT', null, 'auto_increment'),
 					'color_name'			 => array('VCHAR', ''),
 					'color_text'			 => array('VCHAR', 'FFFFFF'),
 					'color_text_hover'		 => array('VCHAR', 'FFFFFF'),
