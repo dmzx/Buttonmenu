@@ -1,264 +1,347 @@
-<!-- INCLUDE overall_header.html -->
+{% INCLUDE 'overall_header.html' %}
 
-<!-- IF S_MENU_CONFIG -->
+{% if S_MENU_CONFIG %}
 
-	<h1>{L_MENU_TITLE}</h1>
+	<h1>{{ lang('MENU_TITLE') }}</h1>
 
 	<form method="post" action="">
 		<fieldset>
 			<dl>
-				<dt><label for="menu_enabled">{L_MENU_ENABLED}{L_COLON}</label></dt>
+				<dt>
+					<label for="menu_enabled">{{ lang('MENU_ENABLED') ~ lang('COLON') }}</label>
+				</dt>
 				<dd>
-			<input type="radio" class="radio" name="menu_enabled" value="1"<!-- IF S_MENU_ENABLED --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
-					<input type="radio" class="radio" name="menu_enabled" value="0"<!-- IF not S_MENU_ENABLED --> checked="checked"<!-- ENDIF --> /> {L_NO}
-		</dd>
+					<input type="radio" class="radio" name="menu_enabled" value="1"{% if S_MENU_ENABLED %} checked="checked"{% endif %}> {{ lang('YES') }} &nbsp;
+					<input type="radio" class="radio" name="menu_enabled" value="0"{% if not S_MENU_ENABLED %} checked="checked"{% endif %}> {{ lang('NO') }}
+				</dd>
 			</dl>
 		</fieldset>
 		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">
 		</p>
-		{S_FORM_TOKEN}
+		{{ S_FORM_TOKEN }}
 	</form>
 
-<!-- ELSEIF S_MENU_BUTTONS -->
+{% elseif S_MENU_STYLES %}
 
-	<!-- IF S_MENU_BUTTONS_LIST -->
+	{% if S_MENU_STYLES_LIST %}
 
-	<h1>{L_ACP_MENU_BUTTONS_TITLE}</h1>
+	<h1>{{ lang('ACP_MENU_STYLES_TITLE') }}</h1>
+	<p>{{ lang('CREATE_COLOR_EXPLAIN') }}</p>
 
-	<p>{L_CREATE_BUTTON_EXPLAIN}</p>
-
-	<p><strong>{S_BUTTONS_NAV}</strong></p>
-	<!-- IF .buttons -->
-		<table cellspacing="2">
-			<col class="row1" /><col class="row2" />
-			<tbody>
-			<!-- BEGIN buttons -->
-				<tr>
-					<td>
-						<strong><!-- IF not S_PARENT_ID --><a href="{buttons.U_OPEN}">{buttons.NAME}</a><!-- ELSE -->{buttons.NAME}<!-- ENDIF --></strong>
-						<br /><span>{buttons.URL}</span>
-					</td>
-					<td style="width: 10%; text-align: center; white-space: nowrap;">
-						<!-- IF buttons.S_FIRST_ROW && not buttons.S_LAST_ROW -->
-							{ICON_MOVE_UP_DISABLED}
-							<a href="{buttons.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
-						<!-- ELSEIF not buttons.S_FIRST_ROW && not buttons.S_LAST_ROW -->
-							<a href="{buttons.U_MOVE_UP}">{ICON_MOVE_UP}</a>
-							<a href="{buttons.U_MOVE_DOWN}">{ICON_MOVE_DOWN}</a>
-						<!-- ELSEIF buttons.S_LAST_ROW && not buttons.S_FIRST_ROW -->
-							<a href="{buttons.U_MOVE_UP}">{ICON_MOVE_UP}</a>
-							{ICON_MOVE_DOWN_DISABLED}
-						<!-- ELSE -->
-							{ICON_MOVE_UP_DISABLED}
-							{ICON_MOVE_DOWN_DISABLED}
-						<!-- ENDIF -->
-						<a href="{buttons.U_EDIT}">{ICON_EDIT}</a>
-						<a href="{buttons.U_DELETE}">{ICON_DELETE}</a>
-					</td>
-				</tr>
-			<!-- END buttons -->
-			</tbody>
-		</table>
-	<!-- ELSE -->
-		<div class="errorbox"><!-- IF not S_PARENT_ID -->{L_NO_BUTTONS}<!-- ELSE -->{L_NO_SUBBUTTONS}<!-- ENDIF --></div>
-	<!-- ENDIF -->
+	{% if manage_styles %}
+	<table cellspacing="2">
+		<col class="row1" /><col class="row2" />
+		<tbody>
+		{% for manage_style in manage_styles %}
+			<tr>
+				<td>
+					<strong>{{ manage_style.NAME }}</strong> [{% if manage_style.STYLE_NAME %}{{ manage_style.STYLE_NAME }} | id = {{ manage_style.TRUC }}{% endif %}]
+				</td>
+				<td style="width: 20%; text-align: center; white-space: nowrap;">
+					<a href="{{ manage_style.U_EDIT }}">{{ ICON_EDIT }}</a>
+					<a href="{{ manage_style.U_DELETE }}">{{ ICON_DELETE }}</a>
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	<div class="errorbox">{{ lang('NO_COLORS') }}</div>
+	{% endif %}
 
 	<form method="post" action="">
 		<fieldset class="quick">
-			<input class="post" type="text" maxlength="100" id="menu_button_name" name="button_name" value="" />
-		<input class="button2" type="submit" id="submit" name="submit" value="{L_ACP_MENU_ADD_BUTTON_TITLE}" />&nbsp;
-		{S_FORM_TOKEN}
+			<input  type="text" maxlength="100" id="menu_color_name" name="color_name" value="">
+			<input class="button2" type="submit" id="submit" name="submit" value="{{ lang('ACP_MENU_ADD_COLOR_TITLE') }}">&nbsp;
+			{{ S_FORM_TOKEN }}
 		</fieldset>
 	</form>
 
-	<!-- ELSEIF S_MENU_CREATE_BUTTON or S_MENU_EDIT_BUTTON -->
+	{% elseif S_MENU_EDIT_COLOR or S_MENU_ADD_COLOR %}
 
-	<h1><!-- IF S_MENU_EDIT_BUTTON -->{L_ACP_MENU_EDIT_BUTTON}<!-- ELSE -->{L_ACP_MENU_ADD_BUTTON_TITLE}<!-- ENDIF --></h1>
+	{% INCLUDECSS '@dmzx_buttonmenu/spectrum/spectrum.min.css' %}
+	{% INCLUDECSS '@dmzx_buttonmenu/acp_buttonmenu.css' %}
+	{% INCLUDEJS '@dmzx_buttonmenu/spectrum/spectrum.min.js' %}
+	{% INCLUDEJS '@dmzx_buttonmenu/acp_buttonmenu.js' %}
+	<h1>{% if S_MENU_ADD_COLOR %}{{ lang('ACP_MENU_ADD_COLOR_TITLE') }}{% else %}{{ lang('ACP_MENU_EDIT_COLOR') }}{% endif %}</h1>
 
 	<form method="post" action="">
 		<fieldset>
 			<dl>
-				<dt><label for="menu_button_name">{L_MENU_BUTTON_NAME}</label><br />{L_MENU_BUTTON_NAME_EXPLAIN}</dt>
-				<dd><input class="post" type="text" size="50" maxlength="100" id="menu_button_name" name="button_name" value="{S_NAME}" /></dd>
-			</dl>
-			<dl>
-				<dt><label for="menu_button_url">{L_MENU_BUTTON_URL}</label><br />{L_MENU_BUTTON_URL_EXPLAIN}</dt>
-				<dd><input class="post" type="text" size="50" id="menu_button_url" name="button_url" value="<!-- IF not S_MENU_EDIT_BUTTON -->http://<!-- ENDIF -->{S_URL}" /></dd>
-			</dl>
-			<dl>
-				<dt><label for="menu_button_parent">{L_MENU_BUTTON_PARENT}</label><br />{L_MENU_BUTTON_PARENT_EXPLAIN}</dt>
+				<dt>
+					<label for="color_name">{{ lang('MENU_COLOR_NAME') ~ lang('COLON') }}</label>
+				</dt>
 				<dd>
-			<select name="button_parent" id="menu_button_parent">
-					<option value=""></option>
-						<!-- BEGIN parents -->
-							<option value="{parents.ID}"<!-- IF ( S_MENU_EDIT_BUTTON and parents.ID == S_PARENT ) or (not S_MENU_EDIT_BUTTON and parents.ID == S_PARENT_ID ) --> selected="selected"<!-- ENDIF -->>{parents.NAME}</option>
-						<!-- END parents -->
+					<input id="color_name"  type="text" size="50" maxlength="100" name="color_name" value="{{ S_NAME }}">
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="color_style_id">{{ lang('MENU_STYLE') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<select id="color_style_id" name="color_style_id">
+						<option value="">-------------</option>
+						{% for style in styles %}
+						<option value="{{ style.ID }}"{% if S_CHOSEN_STYLE eq style.ID %} selected="selected"{% endif %}>{{ style.NAME }}</option>
+						{% endfor %}
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="color_display_search">{{ lang('MENU_SEARCH') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<input id="color_display_search" type="radio" class="radio" name="color_display_search" value="1"{% if S_DISPLAY_SEARCH or S_MENU_ADD_COLOR %} checked="checked"{% endif %}> {{ lang('YES') }} &nbsp;
+					<input type="radio" class="radio" name="color_display_search" value="0"{% if not S_DISPLAY_SEARCH and S_MENU_EDIT_COLOR %} checked="checked"{% endif %}> {{ lang('NO') }}
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="color_text_weight">{{ lang('MENU_WEIGHT') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<select id="color_text_weight" name="color_text_weight">
+						<option value="normal"{% if S_TEXT_WEIGHT eq 'normal' %} selected="selected"{% endif %}>{{ lang('MENU_NORMAL') }}</option>
+						<option value="bold"{% if S_TEXT_WEIGHT eq 'bold' or S_MENU_ADD_COLOR %} selected="selected"{% endif %}>{{ lang('MENU_BOLD') }}</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="color_text_transform">{{ lang('MENU_TEXT_TRANSFORM') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<select id="color_text_transform" name="color_text_transform">
+						<option value="none"{% if S_TEXT_WEIGHT eq 'none' %} selected="selected"{% endif %}>{{ lang('MENU_NONE') }}</option>
+						<option value="uppercase"{% if S_TEXT_TRANSFORM eq 'uppercase' %} selected="selected"{% endif %}>{{ lang('MENU_UPPERCASE') }}</option>
+						<option value="lowercase"{% if S_TEXT_TRANSFORM eq 'lowercase' %} selected="selected"{% endif %}>{{ lang('MENU_LOWERCASE') }}</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="color_text_hover_decor">{{ lang('MENU_DECORATION') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<select id="color_text_hover_decor" name="color_text_hover_decor">
+						<option value="none"{% if S_TEXT_HOVER_DECOR eq 'none' %} selected="selected"{% endif %}>{{ lang('MENU_NONE') }}</option>
+						<option value="underline"{% if S_TEXT_HOVER_DECOR eq 'underline' %} selected="selected"{% endif %}>{{ lang('MENU_UNDERLINE') }}</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="color_align">{{ lang('MENU_ALIGN') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<select id="color_align" name="color_align">
+						<option value="start"{% if S_ALIGN eq 'start' %} selected="selected"{% endif %}>{{ lang('MENU_ALIGN_START') }}</option>
+						<option value="center"{% if S_ALIGN eq 'center' %} selected="selected"{% endif %}>{{ lang('MENU_ALIGN_CENTER') }}</option>
+						<option value="end"{% if S_ALIGN eq 'end' %} selected="selected"{% endif %}>{{ lang('MENU_ALIGN_END') }}</option>
+					</select>
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="menu_background">{{ lang('MENU_BACKGROUND') ~ lang('COLON') }}</label><br>
+					<span>{{ lang('MENU_BACKGROUND_EXPLAIN') }}</span>
+				</dt>
+				<dd>
+					<input id="menu_background" class="input-color" type="text" size="20" name="menu_background" value="{{ S_MENU_BACKGROUND }}">
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="dropdown_backgroundd">{{ lang('SUBMENU_BACKGROUND') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<input id="dropdown_background" class="input-color" type="text" size="20" name="dropdown_background" value="{{ S_DROPDOWN_BACKGROUND }}">
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="color_text">{{ lang('MENU_FONT_COLOR') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<input id="color_text" class="input-color" type="text" size="20" name="color_text" value="{{ S_TEXT }}">
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="color_text_hover">{{ lang('MENU_FONT_COLOR_HOVER') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<input id="color_text_hover" class="input-color" type="text" size="20" name="color_text_hover" value="{{ S_TEXT_HOVER }}">
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="color_bg_hover">{{ lang('MENU_BGCOLOR_HOVER') ~ lang('COLON') }}</label>
+				</dt>
+				<dd>
+					<input id="color_bg_hover" class="input-color" type="text" size="20" name="color_bg_hover" value="{{ S_BGCOLOR_HOVER }}">
+				</dd>
+			</dl>
+		</fieldset>
+		<p class="submit-buttons">
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}">
+		</p>
+		{{ S_FORM_TOKEN }}
+	</form>
+
+	{% endif %}
+
+{% elseif S_MENU_BUTTONS %}
+
+	{% if S_MENU_BUTTONS_LIST %}
+
+	<h1>{{ lang('ACP_MENU_BUTTONS_TITLE') }}</h1>
+
+	<p>{{ lang('CREATE_BUTTON_EXPLAIN') }}</p>
+
+	<p><strong>{{ S_BUTTONS_NAV }}</strong></p>
+	{% if buttons %}
+		<table cellspacing="2">
+			<col class="row1" /><col class="row2" />
+			<tbody>
+			{% for button in buttons %}
+				<tr>
+					<td>
+						<strong>{% if not S_PARENT_ID %}<a href="{{ button.U_OPEN }}">{{ button.NAME }}</a>{% else %}{{ button.NAME }}{% endif %}</strong><br>
+						<span>{{ button.URL }}</span>
+					</td>
+					<td style="width: 10%; text-align: center; white-space: nowrap;">
+						{% if button.S_FIRST_ROW && not button.S_LAST_ROW %}
+							{{ ICON_MOVE_UP_DISABLED }}
+							<a href="{{ button.U_MOVE_DOWN }}">{{ ICON_MOVE_DOWN }}</a>
+						{% elseif not button.S_FIRST_ROW && not button.S_LAST_ROW %}
+							<a href="{{ button.U_MOVE_UP }}">{{ ICON_MOVE_UP }}</a>
+							<a href="{{ button.U_MOVE_DOWN }}">{{ ICON_MOVE_DOWN }}</a>
+						{% elseif button.S_LAST_ROW && not button.S_FIRST_ROW %}
+							<a href="{{ button.U_MOVE_UP }}">{{ ICON_MOVE_UP }}</a>
+							{{ ICON_MOVE_DOWN_DISABLED }}
+						{% else %}
+							{{ ICON_MOVE_UP_DISABLED }}
+							{{ ICON_MOVE_DOWN_DISABLED }}
+						{% endif %}
+						<a href="{{ button.U_EDIT }}">{{ ICON_EDIT }}</a>
+						<a href="{{ button.U_DELETE }}">{{ ICON_DELETE }}</a>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<div class="errorbox">{% if not S_PARENT_ID %}{{ lang('NO_BUTTONS') }}{% else %}{{ lang('NO_SUBBUTTONS') }}{% endif %}</div>
+	{% endif %}
+
+	<form method="post" action="">
+		<fieldset class="quick">
+			<input  type="text" maxlength="100" id="menu_button_name" name="button_name" value="">
+			<input class="button2" type="submit" id="submit" name="submit" value="{{ lang('ACP_MENU_ADD_BUTTON_TITLE') }}">&nbsp;
+			{{ S_FORM_TOKEN }}
+		</fieldset>
+	</form>
+
+	{% elseif S_MENU_CREATE_BUTTON or S_MENU_EDIT_BUTTON %}
+
+	{% INCLUDECSS '@dmzx_buttonmenu/acp_buttonmenu.css' %}
+	{% INCLUDEJS '@dmzx_buttonmenu/acp_buttonmenu.js' %}
+	<script>
+	var iconSearchLang = "{{ lang('ACP_MENU_ICON_SEARCH') }}",
+		iconDeleteLang = "{{ lang('ACP_MENU_ICON_DELETE') }}",
+		iconCloseLang = "{{ lang('ACP_MENU_ICON_CLOSE') }}";
+	</script>
+
+	<h1>{% if S_MENU_EDIT_BUTTON %}{{ lang('ACP_MENU_EDIT_BUTTON') }}{% else %}{{ lang('ACP_MENU_ADD_BUTTON_TITLE') }}{% endif %}</h1>
+
+	<form method="post" action="">
+		<fieldset>
+			<dl>
+				<dt>
+					<label for="menu_button_name">{{ lang('MENU_BUTTON_NAME') ~ lang('COLON') }}</label><br>
+					<span>{{ lang('MENU_BUTTON_NAME_EXPLAIN') }}</span>
+				</dt>
+				<dd>
+					<input id="menu_button_name"  type="text" size="50" maxlength="100" name="button_name" value="{{ S_NAME }}">
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="menu_button_url">{{ lang('MENU_BUTTON_URL') ~ lang('COLON') }}</label><br>
+					<span>{{ lang('MENU_BUTTON_URL_EXPLAIN') }}</span>
+				</dt>
+				<dd>
+					<input id="menu_button_url"  type="text" size="50" name="button_url" value="{% if not S_MENU_EDIT_BUTTON %}https://{% endif %}{{ S_URL }}">
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="menu_button_icon">{{ lang('ACP_MENU_BUTTON_ICON') ~ lang('COLON') }}</label><br>
+					<span>{{ lang('ACP_MENU_BUTTON_ICON_EXPLAIN') }}</span>
+				</dt>
+				<dd>
+					<input id="menu_button_icon" class="input-icon" type="text" size="50" name="button_icon" value="{{ S_ICON }}">
+				</dd>
+			</dl>
+			<dl>
+				<dt>
+					<label for="menu_button_parent">{{ lang('MENU_BUTTON_PARENT') ~ lang('COLON') }}</label><br>
+					<span>{{ lang('MENU_BUTTON_PARENT_EXPLAIN') }}</span>
+				</dt>
+				<dd>
+					<select id="menu_button_parent" name="button_parent">
+						<option value="">{{ lang('MENU_BUTTON_PARENT_NONE') }}</option>
+						{% for parent in parents %}
+							<option value="{{ parent.ID }}"{% if ( S_MENU_EDIT_BUTTON and parent.ID eq S_PARENT ) or (not S_MENU_EDIT_BUTTON and parent.ID eq S_PARENT_ID ) %} selected="selected"{% endif %}>{{ parent.NAME }}</option>
+						{% endfor %}
 					</select>
 				</dd>
 				</dl>
 			<dl>
-				<dt><label for="menu_button_external_yes">{L_MENU_EXTERNAL}{L_COLON}</label></dt>
+				<dt>
+					<label for="menu_button_external_yes">{{ lang('MENU_EXTERNAL') ~ lang('COLON') }}</label>
+				</dt>
 				<dd>
-			<input type="radio" class="radio" id="menu_button_external_yes" name="button_external" value="1"<!-- IF S_EXTERNAL --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
-					<input type="radio" class="radio" id="menu_button_external_no" name="button_external" value="0"<!-- IF not S_EXTERNAL --> checked="checked"<!-- ENDIF --> /> {L_NO}
-			</dd>
+					<input id="menu_button_external_yes" type="radio" class="radio" name="button_external" value="1"{% if S_EXTERNAL %} checked="checked"{% endif %}> {{ lang('YES') }} &nbsp;
+					<input id="menu_button_external_no" type="radio" class="radio" name="button_external" value="0"{% if not S_EXTERNAL %} checked="checked"{% endif %}> {{ lang('NO') }}
+				</dd>
 			</dl>
-			<dl>
-				<dt><label for="menu_button_only_registered_yes">{L_MENU_ONLY_REGISTERED}{L_COLON}</label></dt>
+			<dl class="has-toggler">
+				<dt>
+					<label for="menu_button_display_yes">{{ lang('ACP_BUTTON_ENABLE') ~ lang('COLON') }}</label>
+				</dt>
 				<dd>
-			<input type="radio" class="radio" id="menu_button_only_registered_yes" name="button_only_registered" value="1"<!-- IF S_ONLY_REGISTERED --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
-					<input type="radio" class="radio" id="menu_button_only_registered_no" name="button_only_registered" value="0"<!-- IF not S_ONLY_REGISTERED --> checked="checked"<!-- ENDIF --> /> {L_NO}
-			</dd>
+					<input id="menu_button_display_yes" type="radio" class="radio" name="button_display" value="1"{% if S_DISPLAY or not S_MENU_EDIT_BUTTON %} checked="checked"{% endif %}> {{ lang('YES') }} &nbsp;
+					<input id="menu_button_display_no" type="radio" class="radio" name="button_display" value="0"{% if not S_DISPLAY and S_MENU_EDIT_BUTTON %} checked="checked"{% endif %}> {{ lang('NO') }}
+				</dd>
 			</dl>
-			<dl>
-				<dt><label for="menu_button_only_guest_yes">{L_MENU_ONLY_GUEST}{L_COLON}</label></dt>
+			<dl class="is-togglable">
+				<dt>
+					<label for="button_permission">{{ lang('ACP_PERMISSION') ~ lang('COLON') }}</label>
+				</dt>
 				<dd>
-			<input type="radio" class="radio" id="menu_button_only_guest_yes" name="button_only_guest" value="1"<!-- IF S_ONLY_GUEST --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
-					<input type="radio" class="radio" id="menu_button_only_guest_no" name="button_only_guest" value="0"<!-- IF not S_ONLY_GUEST --> checked="checked"<!-- ENDIF --> /> {L_NO}
-			</dd>
-			</dl>
-			<dl>
-				<dt><label for="menu_button_display_yes">{L_MENU_DISPLAY}{L_COLON}</label></dt>
-				<dd>
-			<input type="radio" class="radio" id="menu_button_display_yes" name="button_display" value="1"<!-- IF S_DISPLAY or not S_MENU_EDIT_BUTTON --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
-					<input type="radio" class="radio" id="menu_button_display_no" name="button_display" value="0"<!-- IF not S_DISPLAY and S_MENU_EDIT_BUTTON --> checked="checked"<!-- ENDIF --> /> {L_NO}
-			</dd>
+					<select id="button_permission" name="button_permission">
+						<option value="0"{% if S_PERMISSION eq 0 %} selected="selected"{% endif %}>{{ lang('ACP_PERMISSION_EVERYBODY') }}</option>
+						<option value="1"{% if S_PERMISSION eq 1 %} selected="selected"{% endif %}>{{ lang('ACP_PERMISSION_REGISTERED') }}</option>
+						<option value="2"{% if S_PERMISSION eq 2 %} selected="selected"{% endif %}>{{ lang('ACP_PERMISSION_GUEST') }}</option>
+					</select>
+				</dd>
 			</dl>
 		</fieldset>
 		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+			<input class="button1" type="submit" id="submit" name="submit" value="{{ lang('SUBMIT') }}">&nbsp;
+			<input class="button2" type="reset" id="reset" name="reset" value="{{ lang('RESET') }}">
 		</p>
-		{S_FORM_TOKEN}
+		{{ S_FORM_TOKEN }}
 	</form>
 
-	<!-- ENDIF -->
+	{% endif %}
 
-<!-- ELSEIF S_MENU_COLORS -->
+{% endif %}
 
-	<!-- IF S_MENU_COLORS_LIST -->
-
-	<h1>{L_ACP_MENU_COLORS_TITLE}</h1>
-
-	<p>{L_CREATE_COLOR_EXPLAIN}</p>
-
-	<!-- IF .colors -->
-		<table cellspacing="2">
-			<col class="row1" /><col class="row2" />
-			<tbody>
-			<!-- BEGIN colors -->
-				<tr>
-					<td>
-						<strong>{colors.NAME}</strong> [<!-- IF colors.STYLE_NAME -->{colors.STYLE_NAME}<!-- ENDIF -->]
-					</td>
-					<td style="width: 20%; text-align: center; white-space: nowrap;">
-						<a href="{colors.U_EDIT}">{ICON_EDIT}</a>
-						<a href="{colors.U_DELETE}">{ICON_DELETE}</a>
-					</td>
-				</tr>
-			<!-- END colors -->
-			</tbody>
-		</table>
-	<!-- ELSE -->
-		<div class="errorbox">{L_NO_COLORS}</div>
-	<!-- ENDIF -->
-
-	<form method="post" action="">
-		<fieldset class="quick">
-			<input class="post" type="text" maxlength="100" id="menu_color_name" name="color_name" value="" />
-		<input class="button2" type="submit" id="submit" name="submit" value="{L_ACP_MENU_ADD_COLOR_TITLE}" />&nbsp;
-		{S_FORM_TOKEN}
-		</fieldset>
-	</form>
-
-	<!-- ELSEIF S_MENU_EDIT_COLOR or S_MENU_ADD_COLOR -->
-
-	<h1><!-- IF S_MENU_ADD_COLOR -->{L_ACP_MENU_ADD_COLOR_TITLE}<!-- ELSE -->{L_ACP_MENU_EDIT_COLOR}<!-- ENDIF --></h1>
-
-	<form method="post" action="">
-		<fieldset>
-			<dl>
-				<dt><label>{L_MENU_COLOR_NAME}</label></dt>
-				<dd><input class="post" type="text" size="50" maxlength="100" name="color_name" value="{S_NAME}" /></dd>
-			</dl>
-			<dl>
-				<dt><label>{L_MENU_STYLE}{L_COLON}</label></dt>
-				<dd>
-					<select name="color_style_id">
-					<option value=""></option>
-					<!-- BEGIN styles -->
-				<option value="{styles.ID}"<!-- IF S_CHOSEN_STYLE == styles.ID --> selected="selected"<!-- ENDIF -->>{styles.NAME}</option>
-				<!-- END styles -->
-			</select>
-			</dd>
-			</dl>
-			<dl>
-				<dt><label>{L_MENU_SEARCH}{L_COLON}</label></dt>
-				<dd>
-			<input type="radio" class="radio" name="color_display_search" value="1"<!-- IF S_DISPLAY_SEARCH or S_MENU_ADD_COLOR --> checked="checked"<!-- ENDIF --> /> {L_YES} &nbsp;
-					<input type="radio" class="radio" name="color_display_search" value="0"<!-- IF not S_DISPLAY_SEARCH and S_MENU_EDIT_COLOR --> checked="checked"<!-- ENDIF --> /> {L_NO}
-			</dd>
-			</dl>
-			<dl>
-				<dt><label>{L_MENU_WEIGHT}{L_COLON}</label></dt>
-				<dd>
-					<select name="color_text_weight">
-				<option value="normal"<!-- IF S_TEXT_WEIGHT == 'normal' --> selected="selected"<!-- ENDIF -->>{L_MENU_NORMAL}</option>
-				<option value="bold"<!-- IF S_TEXT_WEIGHT == 'bold' or S_MENU_ADD_COLOR --> selected="selected"<!-- ENDIF -->>{L_MENU_BOLD}</option>
-			</select>
-			</dd>
-			</dl>
-			<dl>
-				<dt><label>{L_MENU_TEXT_TRANSFORM}{L_COLON}</label></dt>
-				<dd>
-					<select name="color_text_transform">
-				<option value="none"<!-- IF S_TEXT_WEIGHT == 'none' --> selected="selected"<!-- ENDIF -->>{L_MENU_NONE}</option>
-				<option value="uppercase"<!-- IF S_TEXT_TRANSFORM == 'uppercase' --> selected="selected"<!-- ENDIF -->>{L_MENU_UPPERCASE}</option>
-				<option value="lowercase"<!-- IF S_TEXT_TRANSFORM == 'lowercase' --> selected="selected"<!-- ENDIF -->>{L_MENU_LOWERCASE}</option>
-			</select>
-			</dd>
-			</dl>
-			<dl>
-				<dt><label>{L_MENU_DECORATION}{L_COLON}</label></dt>
-				<dd>
-			<select name="color_text_hover_decor">
-				<option value="none"<!-- IF S_TEXT_HOVER_DECOR == 'none' --> selected="selected"<!-- ENDIF -->>{L_MENU_NONE}</option>
-				<option value="underline"<!-- IF S_TEXT_HOVER_DECOR == 'underline' --> selected="selected"<!-- ENDIF -->>{L_MENU_UNDERLINE}</option>
-			</select>
-			</dd>
-			</dl>
-			<dl>
-				<dt><label>{L_MENU_ALIGN}{L_COLON}</label></dt>
-				<dd>
-			<select name="color_align">
-				<option value="left"<!-- IF S_ALIGN == 'left' --> selected="selected"<!-- ENDIF -->>{L_MENU_LEFT}</option>
-				<option value="right"<!-- IF S_ALIGN == 'right' --> selected="selected"<!-- ENDIF -->>{L_MENU_RIGHT}</option>
-			</select>
-			</dd>
-			</dl>
-			<dl>
-				<dt><label>{L_MENU_FONT_COLOR}{L_COLON}</label></dt>
-				<dd>
-			# <input class="post" type="text" size="20" name="color_text" value="{S_TEXT}" />
-			</dd>
-			</dl>
-			<dl>
-				<dt><label>{L_MENU_FONT_COLOR_HOVER}{L_COLON}</label></dt>
-				<dd>
-			# <input class="post" type="text" size="20" name="color_text_hover" value="{S_TEXT_HOVER}" />
-			</dd>
-			</dl>
-		</fieldset>
-		<p class="submit-buttons">
-			<input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
-			<input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
-		</p>
-		{S_FORM_TOKEN}
-	</form>
-
-	<!-- ENDIF -->
-
-<!-- ENDIF -->
-
-<!-- INCLUDE overall_footer.html -->
+{% INCLUDE 'overall_footer.html' %}
