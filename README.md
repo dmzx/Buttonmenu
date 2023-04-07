@@ -1,6 +1,4 @@
-# Button Menu extension
-
-[![Build Status](https://travis-ci.org/dmzx/Buttonmenu.svg?branch=master)](https://travis-ci.org/dmzx/Buttonmenu)
+# Button Menu extension for phpBB 3.2.x and 3.3.x
 
 ## Install
 
