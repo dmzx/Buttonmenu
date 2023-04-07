@@ -4,12 +4,13 @@ services:
     dmzx.buttonmenu.listener:
         class: dmzx\buttonmenu\event\listener
         arguments:
-            - @service_container
-            - @config
-            - @template
-            - @user
-            - @dbal.conn
-            - %dmzx.buttonmenu.table.menu_buttons%
-            - %dmzx.buttonmenu.table.menu_colors%
+            - '@service_container'
+            - '@config'
+            - '@language'
+            - '@template'
+            - '@user'
+            - '@dbal.conn'
+            - '%dmzx.buttonmenu.table.menu_buttons%'
+            - '%dmzx.buttonmenu.table.menu_styles%'
         tags:
             - { name: event.listener }
