@@ -1,0 +1,9 @@
+{% for button in buttons %}
+    {% if (button.PERMISSION eq 1 and S_REGISTERED_USER) or (button.PERMISSION eq 2 and not S_REGISTERED_USER) or button.PERMISSION eq 0 %}	
+        {% DEFINE HAS_BUTTON_TO_SHOW = '1' %}
+    {% endif %}
+{% endfor %}
+{% if buttons and definition.HAS_BUTTON_TO_SHOW %}
+    {% INCLUDECSS '@dmzx_buttonmenu/buttonmenu.css' %}
+    {% INCLUDEJS '@dmzx_buttonmenu/buttonmenu.js' %}
+{% endif %}

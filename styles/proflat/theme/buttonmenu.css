@@ -1,0 +1,6 @@
+@import url("../../all/theme/buttonmenu.css");
+
+.wrap {
+	padding-top: 0;
+	--radius: 0;
+}

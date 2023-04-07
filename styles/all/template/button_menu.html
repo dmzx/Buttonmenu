@@ -1,0 +1,57 @@
+<nav id="button-menu" role="navigation" class="{% if S_MENU_BACKGROUND eq 'transparent' %}forumbg {% endif %}button-menu"  data-style-id="{{ S_USER_STYLE_ID }}" style="{% if S_MENU_BACKGROUND neq 'transparent' %}background-color: {{ S_MENU_BACKGROUND }}; {% endif %}--dropdown-background: {{ S_DROPDOWN_BACKGROUND }}; --bgcolor-hover: {{ S_MENU_BGCOLOR_HOVER }}; --font-color: {{ S_MENU_FONT_COLOR }}; --font-color-hover: {{ S_MENU_FONT_COLOR_HOVER }}; --text-decoration: {{ S_MENU_DECORATION }};">
+	<button id="toggle-button" class="toggler toggle-button weight-{{ S_MENU_WEIGHT }}" aria-haspopup="true" aria-label="{{ lang('SHOW_HIDE_MENU') }}" aria-controls="main-list" aria-expanded="false">
+		<svg aria-hidden="true" width="18px" height="18px" role="presentation" focusable="false" aria-hidden="true" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+			<path fill="currentColor" d="M17 5H1a1 1 0 0 1 0-2h16a1 1 0 0 1 0 2zm0 5H1a1 1 0 0 1 0-2h16a1 1 0 0 1 0 2zm0 5H1a1 1 0 0 1 0-2h16a1 1 0 0 1 0 2z" />
+		</svg>
+		Menu
+		<span class="sr-only">{{ lang('MENU_OPEN') }}</span>
+	</button>
+	<ul id="main-list" class="is-togglable main-list menu-{{ S_MENU_ALIGN }}" role="menu">
+	{% for button in buttons %}
+		{% if (button.PERMISSION eq 1 and S_REGISTERED_USER) or (button.PERMISSION eq 2 and not S_REGISTERED_USER) or button.PERMISSION eq 0 %}
+		<li class="list-item main-list-item list-item-{{ button.ID }}{% if button.sub %} has-sub" data-parent="sub-list-{{ button.ID }}{% endif %}{% if loop.first %} first-list-item{% endif %}" role="none">
+			{% apply spaceless %}
+			<a href="{{ button.URL }}" class="link-item main-link-item weight-{{ S_MENU_WEIGHT }} transform-{{ S_MENU_TEXT_TRANSFORM }} hover-decoration-{{ S_MENU_DECORATION }}" role="menuitem"{% if button.EXTERNAL %} aria-label="{{ lang('INFO_EXTERNAL') }}" title="{{ lang('INFO_EXTERNAL') }}" target="_blank"{% endif %}>{% if button.ICON %}<i class="icon {{ button.ICON }} fa-fw" aria-hidden="true"></i>{% endif %}{{ button.NAME }}</a>
+			{% if button.sub %}
+			<button id="button-{{ button.ID }}" class="sub-toggler toggler" aria-haspopup="true" aria-label="{{ lang('SHOW_HIDE_SUBMENU') }}" aria-controls="sub-list-{{ button.ID }}" aria-expanded="false">
+				<!-- <i class="sub-icon fa fa-plus-square" data-menu-icon="sub-list-{{ button.ID }}" aria-hidden="true"></i> -->
+				<svg xmlns="http://www.w3.org/2000/svg" width="12" height="8" role="presentation" focusable="false" aria-hidden="true" viewBox="0 0 12 9" class="sub-icon sub-down" data-menu-icon="sub-list-{{ button.ID }}">
+					<polygon points="1 0, 11 0, 6 8"></polygon>
+				</svg>				
+				<span class="sub-reader sr-only" data-reader="sub-list-{{ button.ID }}">{{ lang('SUBMENU_CLOSE') }}</span>
+			</button>
+			<ul id="sub-list-{{ button.ID }}" class="is-togglable sub-list" role="menu">
+			{% for sub in button.sub %}
+				{% if (sub.PERMISSION eq 1 and S_REGISTERED_USER) or (sub.PERMISSION eq 2 and not S_REGISTERED_USER) or sub.PERMISSION eq 0 %}
+				<li class="list-item sub-list-item list-item-{{ sub.ID }}" role="none">
+					{% if sub.ICON %}<i class="icon {{ sub.CODE }} fa-fw" aria-hidden="true"></i>{% endif %}
+					<a href="{{ sub.URL }}" class="link-item sub-link-item weight-{{ S_MENU_WEIGHT }} transform-{{ S_MENU_TEXT_TRANSFORM }} hover-decoration-{{ S_MENU_DECORATION }}" role="menuitem"{% if button.EXTERNAL %} aria-label="{{ lang('INFO_EXTERNAL') }}" title="{{ lang('INFO_EXTERNAL') }}" target="_blank"{% endif %}>{{ sub.NAME }}</a>
+				</li>
+				{% endif %}
+			{% endfor %}
+			</ul>
+			{% endif %}
+			{% endapply %}
+		</li>
+		{% endif %}
+	{% endfor %}
+		{% if S_DISPLAY_SEARCH and S_MENU_SEARCH and not S_IN_SEARCH %}
+		<li id="search-box-menu" class="search-box search-header search-box-menu search-menu-{{ S_MENU_ALIGN }}" role="search">
+			<form action="{{ U_SEARCH }}" method="get" id="search-menu">
+				<fieldset>
+					<input name="keywords" type="search" maxlength="128" title="{{ lang('SEARCH_KEYWORDS') }}"class="inputbox search tiny" size="20" value="{{ SEARCH_WORDS }}" placeholder="{{ lang('SEARCH_MINI') }}">
+					<button class="button button-search" type="submit" title="{{ lang('SEARCH') }}">
+						<i class="icon fa-search fa-fw" aria-hidden="true"></i>
+						<span class="sr-only">{{ lang('SEARCH') }}</span>
+					</button>
+					<a href="{{ U_SEARCH }}" class="button button-search-end" title="{{ lang('SEARCH_ADV') }}">
+						<i class="icon fa-cog fa-fw" aria-hidden="true"></i>
+						<span class="sr-only">{{ lang('SEARCH_ADV') }}</span>
+					</a>
+					{{ S_SEARCH_HIDDEN_FIELDS }}
+				</fieldset>
+			</form>
+		</li>
+		{% endif %}
+	</ul>
+</nav>

@@ -1,0 +1,291 @@
+/* General
+---------------------------------------------------------------------------- */
+.wrap {
+	--radius: 7px;
+}
+.headerbar {
+	border-radius: var(--radius) var(--radius) 0 0;
+	margin-bottom: 0;
+}
+
+.button-menu {
+	border-radius: 0 0 var(--radius) var(--radius);
+	font-size: 0.75rem;
+	margin: 0 0 4px 0;
+	padding: 0;
+}
+
+.button-menu ul {
+	list-style: none;
+}
+
+/* Main list
+---------------------------------------------------------------------------- */
+.list-item {
+	position: relative;
+}
+
+.link-item {
+	padding: 8px 12px;
+}
+
+.link-item i {
+	margin: 0 2px 0 0;
+}
+
+.rtl .link-item i {
+	margin: 0 0 0 2px;
+}
+
+.first-list-item .main-link-item {
+	border-radius: 0 0 0 var(--radius);
+}
+
+.rtl .first-list-item .main-link-item {
+	border-radius: 0 0 var(--radius) 0;
+}
+
+.has-sub .main-link-item {
+	padding-right: 0;
+}
+
+.rtl .has-sub .main-link-item {
+	padding-right: 8px;
+	padding-left: 0;
+}
+
+/* Sub lists
+---------------------------------------------------------------------------- */
+.sub-list {
+	border-radius: 0 0 var(--radius) var(--radius);
+	overflow: hidden;
+}
+
+.sub-link-item {
+	display: block;
+}
+
+/* All togglers
+---------------------------------------------------------------------------- */
+.toggler:focus {
+	outline: none;
+}
+
+.toggler:focus-visible {
+	outline: 2px auto;
+}
+
+/* Sub togglers
+---------------------------------------------------------------------------- */
+.sub-toggler {
+	padding: 8px 8px 8px 4px;
+}
+
+.rtl .sub-toggler {
+	padding: 8px 4px 8px 8px;
+}
+
+.sub-icon {
+	fill: currentcolor;
+}
+
+/* Main toggler
+---------------------------------------------------------------------------- */ 
+.toggle-button {
+	display: none;
+	padding: 0.5em;
+}
+
+.toggle-button svg {
+	vertical-align: text-top;
+}
+
+/* Togglable lists
+---------------------------------------------------------------------------- */ 
+.is-togglable {
+	display: none;
+	visibility: hidden;
+}
+
+.nojs .has-sub:hover .sub-list,
+.is-open {
+	display: flex;
+	flex-direction: column;
+	visibility: visible;
+}
+
+/* Custom settings
+---------------------------------------------------------------------------- */
+.main-list,
+.sub-list {
+	background-color: var(--dropdown-background);
+}
+
+.toggle-button,
+a.link-item,
+a.link-item:active,
+a.link-item:focus,
+a.link-item:visited,
+.toggler,
+.toggler:active,
+.toggler:visited {
+	color: var(--font-color);
+}
+
+.toggle-button:hover,
+a.link-item:hover,
+.toggler:hover {
+	color: var(--font-color-hover);
+}
+
+.has-sub:not(.has-open-sub):hover button,
+.link-item:hover,
+.toggler:hover {
+	background-color: var(--bgcolor-hover);
+	text-decoration: var(--text-decoration);
+}
+
+.menu-left {
+	justify-content: flex-start;
+}
+
+.menu-center {
+	justify-content: center;
+}
+
+.menu-right {
+	justify-content: flex-end;
+}
+
+.weight-normal {
+	font-weight: normal;
+}
+
+.weight-bold {
+	font-weight: bold;
+}
+
+.transform-none {
+	text-transform: none;
+}
+
+.transform-uppercase {
+	text-transform: uppercase;
+}
+
+.transform-lowercase {
+	text-transform: lowercase;
+}
+
+.link-item.hover-decoration-none:hover {
+	text-decoration: none;
+}
+
+.link-item.hover-decoration-underline:hover {
+	text-decoration: underline;
+}
+
+.search-box-menu {
+	align-self: center;
+	box-shadow: none;
+	margin-top: 0;
+	margin-right: 5px;
+}
+
+/* Skip links
+---------------------------------------------------------------------------- */
+a.skip-link {
+	display: inline-block;
+	color: #555;
+	background: #fff;
+	font-size: 1.1em;
+	font-weight: bold;
+	padding: 0.5em;
+	position: absolute;
+	top: -10rem;
+	z-index: 99;
+}
+
+.skip-link:focus {
+	top: 0;
+}
+
+/* Media queries
+---------------------------------------------------------------------------- */
+@media (min-width: 700px) {
+
+	.search-menu-left {
+		margin-left: auto;
+	}
+
+	.rtl .search-menu-left {
+		margin-right: auto;
+	}
+
+	.main-list,
+	.main-list.is-open {
+		background-color: transparent;
+		display: flex;
+		flex-direction: row;
+		gap: 2px;
+		visibility: visible;
+	}
+
+	.sub-list {
+		position: absolute;
+		margin-left: 0;
+		z-index: 2;
+	}
+
+	.sub-list.is-open {
+		left: 0;
+	}
+
+	.rtl .sub-list.is-open {
+		left: auto;
+		right: 0;
+	}
+}
+
+@media (max-width: 700px) {
+	.headerbar {
+		border-radius: 0;
+	}
+
+	.button-menu {
+		border-radius: 0;
+		font-size: 1rem;
+		margin: 0 -5px 4px -5px;
+	}
+
+	.nojs .button-menu:hover .main-list,
+	.nojs .button-menu:hover .sub-list {
+		display: flex;
+		flex-direction: column;
+		visibility: visible;
+		max-height: 300px;
+		overflow-y: auto;
+	}
+
+	.toggle-button {
+		display: block;
+	}
+
+	.button-menu ul {
+		justify-content: start;
+		line-height: 1.5;
+	}
+
+	.sub-list {
+		border-radius: 0;
+		margin: 0 0 0 3em;
+	}
+	
+	.rtl .sub-list {
+		margin: 0 3em 0 0;
+	}
+
+	.sub-link-item {
+		display: inline-block;
+	}
+}
