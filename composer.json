@@ -1,22 +1,32 @@
 {
 	"name": "dmzx/buttonmenu",
 	"type": "phpbb-extension",
-	"description": "This extension adds a menu under the header (similar to phpbb.com menu) fully configurable via ACP.",
-	"homepage": "http://www.dmzx-web.net",
-	"version": "1.0.0",
-	"time": "2015-08-06",
+	"description": "This extension adds a menu to the header.",
+	"homepage": "https://www.dmzx-web.net",
+	"version": "1.0.1",
+	"time": "2023-04-05",
 	"keywords": ["phpbb", "extension", "Button menu"],
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-only",
 	"authors": [
 		{
 			"name": "dmzx",
-			"homepage": "http://www.dmzx-web.net",
+			"homepage": "https://www.dmzx-web.net",
 			"email": "info@dmzx-web.net",
 			"role": "Extension Developer"
+		},
+		{
+			"name": "cabot",
+			"homepage": "https://forum.cabotweb.fr",
+			"role": "SushiMaker"
+		},
+		{
+		"name": "Sebastian Castro",
+		"homepage": "https://github.com/seballot/spectrum",
+		"role": "Spectrum 2 Developer"
 		}
 	],
 	"require": {
-		"php": ">=5.3.3"
+		"php": ">=5.4.7"
 	},
 	"require-dev": {
 		"phpbb/epv": "dev-master"
@@ -24,12 +34,7 @@
 	"extra": {
 		"display-name": "Button menu",
 		"soft-require": {
-			"phpbb/phpbb": "3.1.*"
-		},
-		"version-check": {
-			"host": "www.dmzx-web.net",
-			"directory": "/versions",
-			"filename": "buttonmenu_version.json"
+			"phpbb/phpbb": ">=3.2.0@dev"
 		}
 	}
 }
